@@ -74,12 +74,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onInit(int initStatus) {
         if (initStatus == TextToSpeech.SUCCESS) {
-            if (tts.isLanguageAvailable(Locale.US) == TextToSpeech.LANG_AVAILABLE)
+            if (tts.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_AVAILABLE)
+                tts.setLanguage(Locale.getDefault());
+            else
                 tts.setLanguage(Locale.US);
+
         }
         else{
              if(initStatus == TextToSpeech.ERROR){
-                 Toast.makeText(this, "Erro TTS", Toast.LENGTH_LONG);
+                 Toast.makeText(this, "Erro TTS", Toast.LENGTH_LONG).show();
             }
 
 
@@ -105,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (resultCode == RESULT_OK && null !=data){
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     tvExibir.setText(result.get(0));
+
+                    if (result.get(0).equalsIgnoreCase("teste"))
+                        Toast.makeText(this, "Falou TESTE!", Toast.LENGTH_SHORT).show();
                 }
 
 
